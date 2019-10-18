@@ -34,10 +34,10 @@ class MergeAtom {
       }
     });
   }
-  output(aCss) {
+  output(aAtomList) {
     const { unit = 'px', ratio, filePath } = this.options;
     let sStyleString = '';
-    aCss = _.uniq(aCss);
+    aAtomList = _.uniq(aAtomList);
 
     const oMap = {
       // padding
@@ -73,16 +73,16 @@ class MergeAtom {
       hp: 'height:$%'
     };
     // 匹配生成css
-    _.each(aCss, sValue => {
+    _.each(aAtomList, sValue => {
       let aValue = sValue.split('-');
       if (aValue[0]) {
-        aValue = oMap[aValue[0]]
+        let sMapValue = oMap[aValue[0]]
           ? `.${val}{${oMap[aValue[0]].replace(
               /\$/g,
               ratio ? aValue[1] * ratio : aValue[1]
             )}}`
           : '';
-        sStyleString += aValue;
+        sStyleString += sMapValue;
       }
     });
     // 生成css文件
